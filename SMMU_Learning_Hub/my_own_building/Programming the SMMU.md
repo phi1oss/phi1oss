@@ -93,3 +93,27 @@ P22
 translation table --- 存放地址转译的结果
 
 消息传递的通道 --- CMDQ、EVTQ、PRIQ等提供软件与SMMU的通信渠道，用于传递维护命令、反馈事件以及发送页表请求
+
+P26
+   1.STE和CD的概况
+   STE和CD都是地址翻译所用的配置表项。
+   STE根据SID查找出来，STE中记录了主要控制信息包括：
+         config  --- 地址的翻译阶段是怎么样的，stage1和stage2的使能情况   
+         s1contextptr --- 在stage1使能的情况下，STE还会给出CD的查找位置
+         S2TTB --- stage2 页表查找的起始地址
+         VMID --- 不同虚拟机的地址空间标识符
+         S2T0SZ --- stage2 转译地址的范围
+         S2TG  --- 页表的granule
+         table walk的属性 --- S2IR0/OR0 规定页表的cacheability S2SH0规定了页表访问的sharedomain
+    SSID根据SSID查找出来，记录了stage1 transaltion的配置信息
+        TTB0/TTB1：stage1 翻译页表的起始地址
+        ASID：进程地址空间的标识符
+        T0SZ/T1SZ、TG0/TG1：地址范围和翻译粒度；
+        IR/OR/SH：SMMU 访问页表时所用的memory attribute；
+        MAIR：记录页表所映射的地址空间的memory attribute。
+P32
+   <重点核心>描述一下SMMU地址翻译的过程 (过程有些复杂，通过图示表达出来) 
+  SMMU地址翻译的过程主要包括两个查表的过程，分别配置表的查找和页表的查找
+  首先是configuration lookup，配置表包含STE和CD，分别记录了stage2和stage1的地址转译配置，在lookup开始时，SMMU首先通过寄存器获知Stream table的起始地址，然后使用SID去index
+出具体的STE表项。STE中记录了stage2 页表查找的起始地址以及CD查找的位置，如果需要进行stage1的翻译，那么就需要通过CD查找的基地址结合SSID找到最终的表项，CD中记录stage1页表查找的起始地址和ASID等地址转译信息
+   然后page table 的lookup，SMMU首先会去lookup TLB，如果TLB miss的话就开启table walk，这一阶段和MMU的table walk过程是类似的，结合前面提供的translation context，获得必要的页表基地址，然后结合VA的字段去做index，完成逐级页表的遍历。在多级页表遍历的过程中，我们遇到这几种情况：首先如果是lookup到一个page类型的entry，它会提供下级页表的基地址让我们继续去查找，然后也可能会遇到page或是block类型，说明table walk已经完成，它们提供的是最终的地址转译结果，最后也可能会遇到invalid的表项，这说明发生了translation fault，需要上报给CPU进行处理。
