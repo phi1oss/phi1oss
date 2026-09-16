@@ -111,6 +111,7 @@ P26
         T0SZ/T1SZ、TG0/TG1：地址范围和翻译粒度；
         IR/OR/SH：SMMU 访问页表时所用的memory attribute；
         MAIR：记录页表所映射的地址空间的memory attribute。
+        
 P32
    <重点核心>描述一下SMMU地址翻译的过程 (过程有些复杂，通过图示表达出来) 
   SMMU地址翻译的过程主要包括两个查表的过程，分别配置表的查找和页表的查找
