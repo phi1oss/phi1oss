@@ -118,3 +118,29 @@ P32
   首先是configuration lookup，配置表包含STE和CD，分别记录了stage2和stage1的地址转译配置，在lookup开始时，SMMU首先通过寄存器获知Stream table的起始地址，然后使用SID去index
 出具体的STE表项。STE中记录了stage2 页表查找的起始地址以及CD查找的位置，如果需要进行stage1的翻译，那么就需要通过CD查找的基地址结合SSID找到最终的表项，CD中记录stage1页表查找的起始地址和ASID等地址转译信息
    然后page table 的lookup，SMMU首先会去lookup TLB，如果TLB miss的话就开启table walk，这一阶段和MMU的table walk过程是类似的，结合前面提供的translation context，获得必要的页表基地址，然后结合VA的字段去做index，完成逐级页表的遍历。在多级页表遍历的过程中，我们遇到这几种情况：首先如果是lookup到一个page类型的entry，它会提供下级页表的基地址让我们继续去查找，然后也可能会遇到page或是block类型，说明table walk已经完成，它们提供的是最终的地址转译结果，最后也可能会遇到invalid的表项，这说明发生了translation fault，需要上报给CPU进行处理。
+
+P33、P34、P36
+   软件和SMMU通过数据队列进行通信
+   CMDQ是软件向SMMU发送维护命令的通道，主要的维护命令有：TLBI、CFGI、CMD_SYNC
+   EVENTQ是SMMU向软件反馈特殊事件的通道，反馈的时间包括：
+       CERROR_ILL:CMDQ中出现的非法命令
+       C_BAD_STREAMID:使用的SID超出了配置的范围
+       C_BAD_CD:CD表格无效 valid == 0
+P37
+  Global Error：影响 SMMU 全局运行的错误：
+       CMDQ 错误，且可能使后续命令处理暂停，直到软件清除错误；
+       访问 EVTQ 时异常 abort；
+       写 MSI 时产生的异常Abort。
+  软件通过 SMMU_(S_)GERROR 观察错误状态，通过 SMMU_(S_)GERRORN 的规定方式确认/清除，并可配置 Global Error 中断。
+P38、P39
+    ATS是什么：PCIe的设备会提前将地址转译的结果放到本地cache中
+    PRIQ：设备的 ATS Translation Request 可能因为页面尚未准备好而失败，随后设备发送 PRI Request。
+
+P42 
+  SMMU的启动配置是怎么样的：
+  1.创建并初始化配置表项stream table，在系统寄存器中配置查找的起始地址
+  2.创建并初始化CMDQ、EVENTQ，并在寄存器中设置队列存放的位置、producer指针、consumer指针。PRIQ只有在PRI功能启用时才会创建
+  3.通过SMMU_CR寄存器配置stream table和CMDQ的内存访问属性，如cacheability、shareability
+  4.配置中断路径，为EVENTQ、PRIQ、global error配置IRQ
+  5.设置GBPA以及全局bypass时，memory attribute的输出类型
+  6.通过寄存器使能SMMU
