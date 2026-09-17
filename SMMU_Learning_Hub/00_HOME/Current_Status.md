@@ -1,6 +1,6 @@
 # Current Status
 
-> 更新日期：2026-09-15  
+> 更新日期：2026-09-17  
 > 学习主线：按照 `MMU.pdf` 培训目录推进。  
 > 说明：培训进度、内容整理和测试熟练度相互独立，不以文档数量代表掌握程度。
 
@@ -63,7 +63,7 @@
 
 | 文档 | 培训对应 | 整理状态 | 掌握验证 |
 |---|---|---|---|
-| [MMU S3 组件与设备集成拓扑](../02_KNOWLEDGE/Architecture/01_MMU_S3组件与设备集成拓扑.md) | 第 32–33、58–68、74 页 | 2026-09-10 形成正式文档 | 待测试 |
+| [MMU S3 Introduction and Topology 主线](../02_KNOWLEDGE/Architecture/01_MMU_S3组件与设备集成拓扑.md) | 第 58–68 页 | 2026-09-17 按培训模块重建 | 待测试 |
 | [PCIe ATS 两种模式与 ATC 维护](../02_KNOWLEDGE/Interfaces/01_PCIe_ATS两种模式与ATC维护.md) | 第 50、63–65、89 页 | 2026-09-10 形成正式文档 | 待测试 |
 | [SVA 绑定、PRI 与 DTI 页面恢复](../02_KNOWLEDGE/Interfaces/02_SVA绑定_PRI与DTI页面恢复.md) | 第 46、50–51、55–57、91 页 | 2026-09-10 形成正式文档 | 待测试 |
 
@@ -75,7 +75,7 @@
 
 | 文档 | 培训对应 | 整理状态 | 掌握验证 |
 |---|---|---|---|
-| [TBU/TCU 接口与三类 Bypass](../02_KNOWLEDGE/Interfaces/03_TBU_TCU接口与三类Bypass.md) | 第 41、71、73–76、79 页 | 2026-09-10 形成正式文档 | 待测试 |
+| [MMU S3 Interfaces 主线](../02_KNOWLEDGE/Interfaces/03_TBU_TCU接口与三类Bypass.md) | 第 69–84 页 | 2026-09-17 按培训模块重建 | 待测试 |
 | [ACE5-Lite Properties 与输出属性](../02_KNOWLEDGE/Interfaces/04_ACE5-Lite_Properties与输出属性.md) | 第 71–76 页 | 2026-09-10 形成正式文档 | 待测试 |
 | [SMMU 低功耗、复位与连接顺序](../02_KNOWLEDGE/Integration/01_SMMU低功耗_复位与连接顺序.md) | 第 70、77、82、87–88 页 | 2026-09-10 形成正式文档 | 待测试 |
 | [PMCG 与 PMU Snapshot](../02_KNOWLEDGE/Debug/03_PMCG与PMU_Snapshot.md) | 第 80 页 | 2026-09-10 形成正式文档 | 待测试 |
