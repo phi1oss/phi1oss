@@ -1,6 +1,6 @@
 # Current Status
 
-> 更新日期：2026-09-17  
+> 更新日期：2026-09-20  
 > 学习主线：按照 `MMU.pdf` 培训目录推进。  
 > 说明：培训进度、内容整理和测试熟练度相互独立，不以文档数量代表掌握程度。
 
@@ -13,20 +13,20 @@
 | MMU S3 Introduction and Topology | 58–68 | 已学习 |
 | MMU S3 Interfaces | 69–84 | 已学习 |
 | DTI Protocol Overview | 85–93 | 已学习至第 91 页 |
-| MMU S3 Translation | 94–103 | 尚未开始 |
+| MMU S3 Translation | 94–103 | 已完成正式整理；掌握待测试 |
 | Caching 及后续模块 | 104–160 | 尚未开始 |
 
-当前培训位置：**DTI Protocol Overview，第 91 页 Page Request。**
+当前资料处理位置：**MMU S3 Translation，第 103 页；该模块已完成正式整理。**
 
-接下来需要完成第 92–93 页的模块小结，然后从第 94 页进入 `MMU S3 Translation`。
+DTI Protocol Overview 第 92–93 页仍待补齐；后续主模块从第 104 页进入 `Caching`。
 
 ## 2. 内容整理到哪里
 
 当前已经形成：
 
-- 正式知识文档：18 篇；
+- 正式知识文档：19 篇；
 - 跨主题综合文档：2 篇；
-- 正式整理边界：覆盖到 DTI Protocol Overview 第 91 页对应内容。
+- 正式整理边界：已完成 MMU S3 Translation 第 94–103 页；DTI Protocol Overview 第 92–93 页仍有缺口。
 
 正式知识文档按照知识关系分为以下五个大主题。
 
@@ -93,7 +93,17 @@
 | [BAS 互连与 TID/TDEST 映射](../02_KNOWLEDGE/Interfaces/06_BAS互连与TID_TDEST映射.md) | 第 82–83、86 页 | 2026-09-10 形成正式文档 | 待测试 |
 | [DTI 翻译响应、失效同步与寄存器访问](../02_KNOWLEDGE/Interfaces/07_DTI翻译响应_失效同步与寄存器访问.md) | 第 88–91 页 | 2026-09-10 形成正式文档 | 待测试 |
 
-### 2.6 跨主题综合
+### 2.6 MMU S3 Translation 与保护
+
+核心关系：
+
+> SEC_SID 选择安全资源 bank，SID/SSID 通过 STE/CD 选择 Stage 1/2 Translation Context；地址翻译得到 PA 后，GPT/GPI 再检查对应 PAS 是否允许访问目标 granule。
+
+| 文档 | 培训对应 | 整理状态 | 掌握验证 |
+|---|---|---|---|
+| [MMU S3 Translation 主线](../02_KNOWLEDGE/Translation/04_MMU_S3_Translation主线.md) | 第 94–103 页 | 2026-09-20 按培训模块形成正式文档 | 待测试 |
+
+### 2.7 跨主题综合
 
 跨主题文档不重复解释单个概念，而是用于建立端到端流程和概念之间的联系。
 
@@ -102,7 +112,7 @@
 | [Device 请求、翻译与软件维护闭环](../03_SYNTHESIS/End_to_End_Flows/01_Device请求_翻译与软件维护闭环.md) | 串联设备请求、Translation Context、地址翻译、缓存、失效和软件同步 |
 | [身份、属性与完成语义对照](../03_SYNTHESIS/Concept_Comparisons/01_身份_属性与完成语义对照.md) | 对照请求身份、地址空间、内存属性、事务属性和完成保证 |
 
-第 94 页之后的 Translation、Caching、Prefetch、Hazarding、Additional Features、Configuration、Integration 和 Protection Mechanisms 尚未形成系统性的正式知识文档。
+第 104 页之后的 Caching、Prefetch、Hazarding、Additional Features、Configuration、Integration 和 Protection Mechanisms 尚未形成系统性的正式知识文档。
 
 ## 3. 测试进行到哪里
 
